@@ -2,7 +2,10 @@ import os
 
 from mongoengine import *
 
-connect(os.getenv("MONGODB_URL"))
+connect(db='test',
+        username=os.getenv('username'),
+        password=os.getenv('password'),
+        host=os.getenv('MONGODB_URL'))
 
 
 class Images(Document):

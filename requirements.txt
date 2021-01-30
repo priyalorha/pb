@@ -1,6 +1,7 @@
 boto3==1.16.63
 botocore==1.19.63
 click==7.1.2
+dnspython==2.1.0
 Flask==1.1.2
 gunicorn==20.0.4
 itsdangerous==1.1.0

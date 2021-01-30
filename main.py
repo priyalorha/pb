@@ -3,6 +3,8 @@ import os
 import base64
 import boto3
 from images import Images
+from random import randint
+
 
 
 class S3Functionality:
@@ -49,7 +51,7 @@ def upload_image(file_name: str) -> dict:
             res = s3_operations.write_data_to_s3(encoded_string, 'priya', file_name)
             print(f"res {res}")
             if res['ResponseMetadata']['HTTPStatusCode'] // 100 == 2:
-                Images(id=Images.objects().count() + 1,
+                Images(id=randint(1,100000) + 1,
                        name=file_name).save()
         return {"message": "document stored"}
     except FileNotFoundError:

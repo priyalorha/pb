@@ -30,7 +30,7 @@ class S3Functionality:
 
 
 s3_operations = S3Functionality(os.getenv('aws_access_key_id'),
-                                os.getenv('aws_secret_access_key='))
+                                os.getenv('aws_secret_access_key'))
 
 
 def delete_images(file_name):

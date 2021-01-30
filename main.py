@@ -29,8 +29,8 @@ class S3Functionality:
         return res
 
 
-s3_operations = S3Functionality(aws_access_key_id="AKIAIJOE67GVBJ7X3AFA",
-                                aws_secret_access_key="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")
+s3_operations = S3Functionality(os.getenv('aws_access_key_id'),
+                                os.getenv('aws_secret_access_key='))
 
 
 def delete_images(file_name):
@@ -40,13 +40,12 @@ def delete_images(file_name):
             Images.objects(name=file_name).delete()
 
 
-def upload_image(file_url: str) -> dict:
+def upload_image(file_name: str) -> dict:
     try:
-        os.path.isfile(file_url)
+        os.path.isfile(file_name)
         logging.info("file exists")
-        with open(file_url, "rb") as image_file:
+        with open(file_name, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
-            file_name = file_url[file_url.rindex('/') + 1:] if file_url.rindex('/') else file_url
             res = s3_operations.write_data_to_s3(encoded_string, 'priya', file_name)
             print(f"res {res}")
             if res['ResponseMetadata']['HTTPStatusCode'] // 100 == 2:
@@ -54,16 +53,14 @@ def upload_image(file_url: str) -> dict:
                        name=file_name).save()
         return {"message": "document stored"}
     except FileNotFoundError:
-        logging.error(f"file not found {file_url}")
+        logging.error(f"file not found {file_name}")
         return {"error": f"file not found,checking at {os.getcwd()}"}
 
 
-def download_image(file_name: str):
+def get_image(file_name: str):
     if Images.objects(name=file_name):
-        data = base64.b64decode(
-        s3_operations.get_data_from_s3("priya", "/Users/priyal/photobooth/backend/download.jpg"))
-        with open("download.jpg", 'wb') as fp:
-            fp.write(data)
+        data = s3_operations.get_data_from_s3("priya", file_name)
+        return {"data": data, "format": file_name.split('.')[-1]}
     else:
         return {"error": f"could not find image {file_name}"}
 
@@ -71,4 +68,3 @@ def download_image(file_name: str):
 def get_list_of_all_image_name() -> list:
     image = [i['name'] for i in Images.objects().as_pymongo()]
     return image
-

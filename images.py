@@ -1,11 +1,13 @@
+import os
+
 from mongoengine import *
 
-connect()
+connect(os.getenv("MONGODB_URL"))
 
 
 class Images(Document):
-    id= IntField(primary_key=True)
-    name= StringField()
+    id = IntField(primary_key=True)
+    name = StringField()
 
     meta = {
         'strict': False,
@@ -17,6 +19,3 @@ class Images(Document):
             'name': self.name,
 
         }
-
-
-

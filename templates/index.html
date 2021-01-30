@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<title>PhotoBooth</title>
+
+</head>
+<body>
+<div>
+    <div >
+        <h1>Upload new File</h1>
+         <form method=post enctype=multipart/form-data>
+          <input type=file name=file>
+          <input type=submit value=Upload>
+        </form>
+
+        </div>
+    {% if len!=0 and image%}
+    <div>
+        <h1>List of images in the system</h1>
+        <table style="margin-left: 20px;" border="10px">
+        <th>
+            <tr style="color: green; ">
+            <td>id</td>
+            <td>name</td>
+                <td>delete</td>
+                <td>download</td>
+    </tr>
+        </th>
+
+    {%for i in range(0, len)%}
+
+    <!-- table rows -->
+    <tr>
+        <td>{{i}}</td>
+        <td>{{image[i]}}</td>
+        <td>
+
+            <form action="{{ url_for('delete_image', image_name=image[i]) }}" method=post>
+            <input type=submit value="delete">
+        </form>
+        </td>
+        <td>
+
+            <form action="{{ url_for('download', image_name=image[i]) }}"
+                  download = "{{image[i]}}" method=get>
+            <input type=submit value="view">
+        </form>
+        </td>
+
+
+
+
+    </tr>
+
+            {%endfor%}
+
+    </table>
+
+    </div>
+    {%endif%}
+    {% if show_image %}
+    <div >
+        <h1> Image Viewer </h1>
+
+         <img src="data:image/{{format}};base64,{{show_image}}" alt="Red dot"
+         download="file.{{format}}"/>
+
+
+
+
+
+    </div>
+    {%endif%}
+
+
+
+</div>
+
+</body>
+
+</html>

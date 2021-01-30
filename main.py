@@ -29,7 +29,8 @@ class S3Functionality:
         return res
 
 
-s3_operations = S3Functionality(aws_access_key_id="pijrewhfue",aws_secret_access_key="aeijdueafbr")
+s3_operations = S3Functionality(aws_access_key_id="AKIAIJOE67GVBJ7X3AFA",
+                                aws_secret_access_key="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")
 
 
 def delete_images(file_name):

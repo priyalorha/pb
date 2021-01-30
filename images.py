@@ -22,3 +22,5 @@ class Images(Document):
             'name': self.name,
 
         }
+
+
